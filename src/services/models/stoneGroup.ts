@@ -1,12 +1,14 @@
 import { Intersection } from "./intersection";
 
 export class StoneGroup{
-    constructor(groupNumber:number, stoneColor:string){
-        this.groupNumber=groupNumber;
+    constructor(stoneColor:string){
+        //this.groupNumber=groupNumber;
         this.stoneColor=stoneColor;
     }
-    stoneColor;
-    groupNumber: number;
+    stoneColor:string;
+    liberties:number =0;
+    libertiesSet=new Set();
+    //groupNumber: number;
     
     intersections: Intersection[]=[];
 }

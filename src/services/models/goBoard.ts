@@ -21,6 +21,37 @@ populateGoBoard(stringBoard : string[][]):Intersection[][]{
       }
       return result;
 }
+
+groupAnIntersection(intersection:Intersection, stoneColor:string, stoneGroup :StoneGroup|null):void{
+  let currentGroup:StoneGroup|null = null;
+  //let currentGroupNumber:number|null=null;
+  if(!intersection.strinColor) return;
+  if(intersection.group)return;
+  if(intersection.strinColor!==stoneColor) return;
+  if(stoneGroup){
+    currentGroup=stoneGroup;
+    intersection.group=stoneGroup;
+    currentGroup.intersections.push(intersection);
+  //  currentGroupNumber=stoneGroup.groupNumber;
+  }else{
+      
+  //const  stoneGroupNumber=this.stoneGroups.length;
+  currentGroup=new StoneGroup(stoneColor);
+  currentGroup.intersections.push(intersection);
+  this.stoneGroups.push(currentGroup);
+  //currentGroupNumber=stoneGroupNumber;
+  }
+  intersection.group=currentGroup;
+  intersection.adjacentIntersections.forEach((i)=>{
+    
+    const targetIntersection=this.board[i.row][i.col];
+    if(targetIntersection.strinColor==='_') {
+      currentGroup!.liberties++;
+      currentGroup?.libertiesSet.add(targetIntersection.row.toString().padStart(2, '0')+ targetIntersection.col.toString().padStart(2, '0'));
+    }
+    this.groupAnIntersection(targetIntersection,stoneColor,currentGroup);
+  })
+}
 }
 
 // function applyFunctionTo2DArray(
