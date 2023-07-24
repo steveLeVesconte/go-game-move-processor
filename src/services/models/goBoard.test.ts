@@ -326,6 +326,213 @@ test('if two groups with blobs and wholes board, then group with correct interse
 
 
 
+
+test('if two groups with blobs and wholes board, then group with correct intersections', () => {
+
+  const boardString =
+  //        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 
+  /* 00  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //00
+  /* 01  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //01
+  /* 02  */"_ _ w w w w w _ _ _ _ _ _ _ _ _ _ _ _,"+  //02
+  /* 03  */"_ _ _ w w w w w _ _ _ _ _ _ _ _ _ _ _,"+  //03
+  /* 04  */"_ _ w w w w w _ _ _ _ _ _ _ _ _ _ _ _,"+  //04
+  /* 05  */"_ _ _ w w w w w _ _ _ _ _ _ _ _ _ _ _,"+  //05
+  /* 06  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //06
+  /* 07  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //07
+  /* 08  */"_ _ b b b b b _ _ _ _ _ _ _ _ _ _ _ _,"+  //08
+  /* 09  */"_ _ b b b b b _ _ _ _ _ _ _ _ _ _ _ _,"+  //09
+  /* 10  */"_ _ b b b b b _ _ _ _ _ _ _ _ _ _ _ _,"+  //10
+  /* 11  */"_ _ b _ b _ b _ _ _ _ _ _ _ _ _ _ _ _,"+  //11
+  /* 12  */"_ _ b b b b b _ _ _ _ _ _ _ _ _ _ _ _,"+  //12
+  /* 13  */"_ _ b b _ b b _ _ _ _ _ _ _ _ _ _ _ _,"+  //13
+  /* 14  */"_ _ b b b b b _ _ _ _ _ _ _ _ _ _ _ _,"+  //14
+  /* 15  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //15
+  /* 16  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //16
+  /* 17  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //17
+  /* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
+
+
+  const templateBoard:string[][]=stringBoardToArray(boardString);
+
+  const goBoard = new GoBoard( templateBoard);
+  goBoard.applyGroupAnIntersectionToBoard();
+
+  expect(goBoard.stoneGroups.length).toBe(2);
+  
+  expect(goBoard.stoneGroups[0].intersections.length).toBe(20);
+  expect(goBoard.stoneGroups[0].stoneColor).toBe('w');
+
+ // goBoard.groupAnIntersection(goBoard.board[14][6],'b',null);
+
+  //expect(goBoard.stoneGroups.length).toBe(2);
+  
+  expect(goBoard.stoneGroups[1].intersections.length).toBe(32);
+  expect(goBoard.stoneGroups[1].stoneColor).toBe('b');
+
+});
+
+
+
+
+
+test('if many small groups, then group with correct intersections with liberties', () => {
+
+  const boardString =
+   //        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 
+  /* 00  */"w _ w b w b w _ _ _ _ _ _ _ _ _ _ _ _,"+  //00
+  /* 01  */"w w w _ _ w w _ _ _ _ _ _ _ _ _ _ _ _,"+  //01
+  /* 02  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //02
+  /* 03  */"_ _ _ _ _ _ b _ _ _ _ _ _ _ _ _ _ _ _,"+  //03
+  /* 04  */"_ _ _ _ b b _ b _ _ _ _ _ _ _ _ _ _ _,"+  //04
+  /* 05  */"_ _ _ _ _ _ b _ _ _ _ _ _ _ _ _ _ _ _,"+  //05
+  /* 06  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //06
+  /* 07  */"_ _ _ _ b _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //07
+  /* 08  */"_ _ _ b w b _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //08
+  /* 09  */"_ _ _ _ b w _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //09
+  /* 10  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //10
+  /* 11  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //11
+  /* 12  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //12
+  /* 13  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //13
+  /* 14  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //14
+  /* 15  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //15
+  /* 16  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //16
+  /* 17  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //17
+  /* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
+
+  const templateBoard:string[][]=stringBoardToArray(boardString);
+
+  const goBoard = new GoBoard( templateBoard);
+  goBoard.applyGroupAnIntersectionToBoard();
+
+  expect(goBoard.stoneGroups.length).toBe(15);
+  
+  //evauate 1st group W
+  //        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 
+  /* 00  */"W _ W b w b w _ _ _ _ _ _ _ _ _ _ _ _,"+  //00
+  /* 01  */"W W W _ _ w w _ _ _ _ _ _ _ _ _ _ _ _,"+  //01
+  /* 02  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //02
+
+  expect(goBoard.stoneGroups[0].intersections.length).toBe(5);
+  expect(goBoard.stoneGroups[0].stoneColor).toBe('w');
+  expect(goBoard.stoneGroups[0].libertiesSet.size).toBe(5);
+  
+   //evauate 2nd group b at 0,3
+  expect(goBoard.stoneGroups[1].intersections.length).toBe(1);
+  expect(goBoard.stoneGroups[1].stoneColor).toBe('b');
+
+  //evauate 3rd group - surounded b at 0,5
+  expect(goBoard.stoneGroups[3].intersections.length).toBe(1);
+  expect(goBoard.stoneGroups[3].stoneColor).toBe('b');
+  expect(goBoard.stoneGroups[3].libertiesSet.size).toBe(0);
+
+
+   //evauate 11th group - surounded w at 8,4
+  /* 07  */"_ _ _ _ b _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //07
+  /* 08  */"_ _ _ b W b _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //08
+  /* 09  */"_ _ _ _ b w _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //09
+  /* 10  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //10
+  expect(goBoard.stoneGroups[11].intersections.length).toBe(1);
+  expect(goBoard.stoneGroups[11].stoneColor).toBe('w');
+  expect(goBoard.stoneGroups[11].libertiesSet.size).toBe(0);
+
+   //evauate 13th group - surounded b at 9,4
+  expect(goBoard.stoneGroups[13].intersections.length).toBe(1);
+  expect(goBoard.stoneGroups[13].stoneColor).toBe('b');
+  expect(goBoard.stoneGroups[13].libertiesSet.size).toBe(2);
+});
+
+
+
+test('if two groups with blobs and wholes board, then group with correct intersections', () => {
+
+  const boardString =
+  //        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 
+/* 00  */"_ w w b _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //00
+/* 01  */"w _ w b _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //01
+/* 02  */"w w b _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //02
+/* 03  */"b b _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //03
+/* 04  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //04
+/* 05  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //05
+/* 06  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //06
+/* 07  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //07
+/* 08  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //08
+/* 09  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //09
+/* 10  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //10
+/* 11  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //11
+/* 12  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //12
+/* 13  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //13
+/* 14  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //14
+/* 15  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //15
+/* 16  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //16
+/* 17  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //17
+/* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
+
+
+  const templateBoard:string[][]=stringBoardToArray(boardString);
+
+  const goBoard = new GoBoard( templateBoard);
+  goBoard.applyGroupAnIntersectionToBoard();
+
+  expect(goBoard.stoneGroups.length).toBe(5);
+  
+  expect(goBoard.stoneGroups[0].intersections.length).toBe(3);
+  expect(goBoard.stoneGroups[0].stoneColor).toBe('w');
+  expect(goBoard.stoneGroups[0].libertiesSet.size).toBe(2);
+
+  expect(goBoard.stoneGroups[2].intersections.length).toBe(3);
+  expect(goBoard.stoneGroups[2].stoneColor).toBe('w');
+  expect(goBoard.stoneGroups[2].libertiesSet.size).toBe(2);
+
+});
+
+test('if two groups with blobs and wholes board, then group with correct intersections', () => {
+
+  const boardString =
+  //        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 
+/* 00  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //00
+/* 01  */"_ _ _ _ w w w _ _ _ _ _ _ _ _ _ _ _ _,"+  //01
+/* 02  */"_ _ _ w b b b w w w _ _ _ _ _ _ _ _ _,"+  //02
+/* 03  */"_ _ _ w b _ b b b b w _ _ _ _ _ _ _ _,"+  //03
+/* 04  */"_ _ _ w b b _ _ _ b w _ _ _ _ _ _ _ _,"+  //04
+/* 05  */"_ _ _ _ w w b b b b w _ _ _ _ _ _ _ _,"+  //05
+/* 06  */"_ _ _ _ _ _ w w w w _ _ _ _ _ _ _ _ _,"+  //06
+/* 07  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //07
+/* 08  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //08
+/* 09  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //09
+/* 10  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //10
+/* 11  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //11
+/* 12  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //12
+/* 13  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //13
+/* 14  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //14
+/* 15  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //15
+/* 16  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //16
+/* 17  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //17
+/* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
+
+
+  const templateBoard:string[][]=stringBoardToArray(boardString);
+
+  const goBoard = new GoBoard( templateBoard);
+  goBoard.applyGroupAnIntersectionToBoard();
+
+  expect(goBoard.stoneGroups.length).toBe(7);
+  
+  expect(goBoard.stoneGroups[2].intersections.length).toBe(15);
+  expect(goBoard.stoneGroups[2].stoneColor).toBe('b');
+  expect(goBoard.stoneGroups[2].libertiesSet.size).toBe(4);
+
+  // expect(goBoard.stoneGroups[2].intersections.length).toBe(3);
+  // expect(goBoard.stoneGroups[2].stoneColor).toBe('w');
+  // expect(goBoard.stoneGroups[2].libertiesSet.size).toBe(2);
+
+});
+
+
+
+
+
+
+
 function countIn2DArray(goBoard : GoBoard, target: string ):number{
   let result: number=0;
   for (let i = 0; i < 19; i++) {

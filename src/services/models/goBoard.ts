@@ -25,7 +25,7 @@ populateGoBoard(stringBoard : string[][]):Intersection[][]{
 groupAnIntersection(intersection:Intersection, stoneColor:string, stoneGroup :StoneGroup|null):void{
   let currentGroup:StoneGroup|null = null;
   //let currentGroupNumber:number|null=null;
-  if(!intersection.strinColor) return;
+  //if(intersection.strinColor==='_') return;
   if(intersection.group)return;
   if(intersection.strinColor!==stoneColor) return;
   if(stoneGroup){
@@ -52,8 +52,27 @@ groupAnIntersection(intersection:Intersection, stoneColor:string, stoneGroup :St
     this.groupAnIntersection(targetIntersection,stoneColor,currentGroup);
   })
 }
-}
 
+
+
+applyGroupAnIntersectionToBoard(
+  // array: targetObject[][],
+  // updateFunction: (color: string) => number
+): void {
+  for (const row of this.board) {
+    for (const intersection of row) {
+      if((intersection.strinColor!=='_') && !intersection.group){
+     //   if(['w','b'].includes(intersection.strinColor) && !intersection.group){
+          this.groupAnIntersection(intersection,intersection.strinColor,null);
+      }
+      // if(intersection.strinColor==="w"&& !intersection.group){
+  
+      // this.groupAnIntersection(intersection,'w',null);
+      // }
+    }
+  }
+}
+}
 // function applyFunctionTo2DArray(
 //   array: Intersection[][],
 //   fn: (value: Intersection) => {
