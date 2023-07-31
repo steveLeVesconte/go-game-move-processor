@@ -1,5 +1,8 @@
+//import { B } from "vitest/dist/types-198fd1d9.js";
+
 export class SubmissionResult{
-    isValid:boolean=false;
+    isLegalPlay:boolean=true;
+    isValidSumission:boolean=true;
     isKo: boolean=false;
     isSuicide: boolean=false;
     isCollision: boolean=false;

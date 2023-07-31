@@ -1,5 +1,7 @@
 import { Intersection } from "./intersection";
 import { StoneGroup } from "./stoneGroup";
+//import { Submission } from "./submission";
+//import { SubmissionResult } from "./submissionResult";
 
 export class GoBoard{
     constructor(stringBoard : string[][]){
@@ -72,6 +74,20 @@ applyGroupAnIntersectionToBoard(
     }
   }
 }
+
+
+
+// evaluateSubmission(sumission:Submission):SubmissionResult{
+// let result=new SubmissionResult();
+
+// let board=sumission.currentBoard
+
+
+// }
+
+
+
+
 }
 // function applyFunctionTo2DArray(
 //   array: Intersection[][],

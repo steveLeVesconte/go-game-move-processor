@@ -2,7 +2,7 @@ import { test, expect } from 'vitest';
 // import {evaluatePlay} from '../playProcessor';
 // import { Submission } from '../models/submission';
 // import { StonePlay } from '../models/stonePlay';
-import { emptyBoard } from '../../utilities/boardUtilities';
+import { emptyBoard, stringBoardToArray } from '../../utilities/boardUtilities';
 import { GoBoard } from './goBoard';
 test('new goBoard to be constructed correctly', () => {
   const testBoard = emptyBoard();
@@ -554,18 +554,18 @@ function countIn2DArray(goBoard : GoBoard, target: string ):number{
 
 
 
-function stringBoardToArray(boardString: string): string[][] {
+// export function stringBoardToArray(boardString: string): string[][] {
 
-  const rows: string[] = boardString.split(' ').join('').split(',');
-  const board: string[][] = [];
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i];
-    const cols = Array.from(row);
-    const outputCol: string[] = [];
-    for (let j = 0; j < row.length; j++) {
-      outputCol.push(cols[j]);
-    }
-    board.push(outputCol);
-  }
-  return board;
-}
+//   const rows: string[] = boardString.split(' ').join('').split(',');
+//   const board: string[][] = [];
+//   for (let i = 0; i < rows.length; i++) {
+//     const row = rows[i];
+//     const cols = Array.from(row);
+//     const outputCol: string[] = [];
+//     for (let j = 0; j < row.length; j++) {
+//       outputCol.push(cols[j]);
+//     }
+//     board.push(outputCol);
+//   }
+//   return board;
+// }
