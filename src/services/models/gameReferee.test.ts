@@ -331,7 +331,7 @@ const areSame=(JSON.stringify(startingBoard) === JSON.stringify(submissionResult
 });
 
 
-test('detect collision - when suiside play is applied, defender groups loses liberties and stones are not removed', () => {
+test('detect collision - when play is applied to occupied intersection, collision is returned', () => {
 
   const startingBoardString =
   //        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 

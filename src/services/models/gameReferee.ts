@@ -17,73 +17,103 @@ import { SubmissionResult } from "./submissionResult";
         // board size invalid either
         // invalide characters in board either
          
-        const result=new SubmissionResult();
         const defenderColor=submission.stonePlay.stoneColor==='w'?'b':'w';
 
-        const isCollision = checkIsCollision(submission.currentBoard,submission.stonePlay);
-        if(isCollision){
-                result.isCollision=true;
-                result.isSuicide=false;
-                result.isLegalPlay=false;
-                result.capturedStones=0;
-                result.newBoard=cloneBoard(submission.currentBoard);
-                return result;
-        }
+       if(checkIsCollision(submission.currentBoard,submission.stonePlay)) return colissionResult(submission);
 
-        const workBoard=cloneBoard(submission.currentBoard);
-        applySubmittedPlayToWorkBoard(submission,workBoard);
+        const workBoard = intializeWorkBoardWithStonePlay(submission);
+
         const goBoard = new GoBoard( workBoard);
-        goBoard.applyGroupAnIntersectionToBoard();
+
         const defenderGroups=getGroupsByStoneColor(goBoard.stoneGroups,defenderColor);
 
         const deadDefenderGroups=getDeadGroups(defenderGroups);
-        if(deadDefenderGroups.length<1){// check for suiside
-            const playerGroups=getGroupsByStoneColor(goBoard.stoneGroups,submission.stonePlay.stoneColor);
-            const deadPlayerGroups=getDeadGroups(playerGroups);
-            if(deadPlayerGroups.length>0){
-                result.isSuicide=true;
-                result.isLegalPlay=false;
-                result.capturedStones=0;
-                result.newBoard=cloneBoard(submission.currentBoard);
-                return result;
-                // set result to starting board;
-            }
-        }
+
+        if(checkIsSuisidePlay(deadDefenderGroups,goBoard,submission)) return suisideResult(submission);
 
         const deadDefenderStones =removeDeadStones(workBoard, deadDefenderGroups);
-        if(!submission.isFirstPlay){
-        const isKo=checkIsKo(workBoard,submission.previousBoard);
 
-        if(isKo){
-            result.isKo=true;
-            result.isLegalPlay=false;
-            result.capturedStones=0;
-            result.newBoard=cloneBoard(submission.currentBoard);
-            return result;
+        if(checkIsKo(workBoard,submission.previousBoard)) return koResult(submission);
+
+       return validPlayResult(defenderGroups,deadDefenderStones,workBoard);
+
+        }
+
+
+function validPlayResult(defenderGroups:StoneGroup[],deadDefenderStones:number,workBoard:string[][]):SubmissionResult{
+    const result=new SubmissionResult()
+    result.isAtari=checkForAtri(defenderGroups);
+    result.capturedStones=deadDefenderStones;
+    result.newBoard=cloneBoard(workBoard);
+    return result;
+}
+
+
+
+function koResult(submission:Submission){
+    const result=new SubmissionResult();
+    result.isKo=true;
+    result.isLegalPlay=false;
+//    result.capturedStones=0;
+    result.newBoard=cloneBoard(submission.currentBoard);
+    return result;
+}
+
+
+function checkForAtri(defenderGroups:StoneGroup[]):boolean{
+    const liveDefenderGroups=getLiveGroups(defenderGroups);
+    const atriGroups= getGroupsWithOneLiberty(liveDefenderGroups);
+   return atriGroups.length>0;
+}
+
+
+function checkIsSuisidePlay(deadDefenderGroups:StoneGroup[],goBoard:GoBoard, submission:Submission):boolean{
+    if(deadDefenderGroups.length<1){// check for suiside
+        const playerGroups=getGroupsByStoneColor(goBoard.stoneGroups,submission.stonePlay.stoneColor);
+        const deadPlayerGroups=getDeadGroups(playerGroups);
+        if(deadPlayerGroups.length>0){
+            // result.isSuicide=true;
+            // result.isLegalPlay=false;
+            // result.capturedStones=0;
+            // result.newBoard=cloneBoard(submission.currentBoard);
+            return true;
+            // set result to starting board;
         }
     }
-
-        const liveDefenderGroups=getLiveGroups(defenderGroups);
-        const atriGroups= getGroupsWithOneLiberty(liveDefenderGroups);
-
-       result.isAtari=atriGroups.length>0;
-       result.capturedStones=deadDefenderStones;
-       result.newBoard=cloneBoard(workBoard);
-       result.isLegalPlay;
-       return result;
-        }
+    return false;
+}
 
 
 
+function suisideResult(submission:Submission):SubmissionResult{
+    const result=new SubmissionResult()
+    result.isSuicide=true;
+    result.isLegalPlay=false;
+    //result.capturedStones=0;
+    result.newBoard=cloneBoard(submission.currentBoard);
+    return result;
+}
 
 
 
+function colissionResult(submission:Submission){
+    const result=new SubmissionResult();
+    result.isCollision=true;
+    //result.isSuicide=false;
+    result.isLegalPlay=false;
+    //result.capturedStones=0;
+    result.newBoard=cloneBoard(submission.currentBoard);
+    return result;
+}
 
 
 
+function intializeWorkBoardWithStonePlay(submission:Submission):string[][]{
+    const result=cloneBoard(submission.currentBoard);
+    result[submission.stonePlay.row][submission.stonePlay.col]=submission.stonePlay.stoneColor;
+    return result;
 
-
-
+}
 
 
 

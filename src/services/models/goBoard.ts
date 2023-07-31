@@ -6,6 +6,7 @@ import { StoneGroup } from "./stoneGroup";
 export class GoBoard{
     constructor(stringBoard : string[][]){
        this.board = this.populateGoBoard(stringBoard);
+       this.applyGroupAnIntersectionToBoard();
     }
     public board:Intersection[][];
     public stoneGroups: StoneGroup[]=[];

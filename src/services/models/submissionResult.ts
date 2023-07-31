@@ -9,4 +9,5 @@ export class SubmissionResult{
     isAtari:boolean=false;
     newBoard: string[][]=[];
     capturedStones:number=0;
+    reasonInvalid:string="";
 }
