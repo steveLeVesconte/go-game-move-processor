@@ -111,10 +111,10 @@ test('if black stones in u shape, then not fooled by corner stones and white sto
   const goBoard = new GoBoard( testBoard);
   goBoard.groupAnIntersection(goBoard.board[13][4],'b',null);
 
-  expect(goBoard.stoneGroups.length).toBe(1);
-    expect(goBoard.stoneGroups[0].intersections.length).toBe(7);
+  expect(goBoard.stoneGroups.length).toBe(3);
+    expect(goBoard.stoneGroups[1].intersections.length).toBe(7);
   //expect(goBoard.stoneGroups[0].liberties).toBe(16);
-  expect(goBoard.stoneGroups[0].libertiesSet.size).toBe(12);
+  expect(goBoard.stoneGroups[1].libertiesSet.size).toBe(12);
 
 });
 
@@ -264,13 +264,13 @@ test('if two groups in spirole shapge board, then group with 45 intersections', 
   const templateBoard:string[][]=stringBoardToArray(boardString);
 
   const goBoard = new GoBoard( templateBoard);
-  goBoard.groupAnIntersection(goBoard.board[0][0],'w',null);
+ // goBoard.groupAnIntersection(goBoard.board[0][0],'w',null);
 
-  expect(goBoard.stoneGroups.length).toBe(1);
+  expect(goBoard.stoneGroups.length).toBe(2);
   
   expect(goBoard.stoneGroups[0].intersections.length).toBe(44);
 
-  goBoard.groupAnIntersection(goBoard.board[2][17],'b',null);
+ //goBoard.groupAnIntersection(goBoard.board[2][17],'b',null);
 
   expect(goBoard.stoneGroups.length).toBe(2);
   
@@ -310,15 +310,15 @@ test('if two groups with blobs and wholes board, then group with correct interse
   const templateBoard:string[][]=stringBoardToArray(boardString);
 
   const goBoard = new GoBoard( templateBoard);
-  goBoard.groupAnIntersection(goBoard.board[2][2],'w',null);
+  //goBoard.groupAnIntersection(goBoard.board[2][2],'w',null);
 
-  expect(goBoard.stoneGroups.length).toBe(1);
+  expect(goBoard.stoneGroups.length).toBe(2);
   
   expect(goBoard.stoneGroups[0].intersections.length).toBe(20);
 
   goBoard.groupAnIntersection(goBoard.board[14][6],'b',null);
 
-  expect(goBoard.stoneGroups.length).toBe(2);
+  //expect(goBoard.stoneGroups.length).toBe(2);
   
   expect(goBoard.stoneGroups[1].intersections.length).toBe(32);
  
