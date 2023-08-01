@@ -5,6 +5,7 @@ import { Submission } from './submission';
 import { StonePlay } from './stonePlay';
 import { stringBoardToArray } from '../../utilities/boardUtilities';
 import { applySubmittedPlayToWorkBoard, cloneBoard, evaluateSubmission, getDeadGroups, getGroupsByStoneColor, getGroupsWithOneLiberty, removeDeadStones } from './gameReferee';
+import { BLACK_STONE, EMPTY_INTERSECTION, WHITE_STONE } from './constants';
 
 test('evaluateSubmission - when play is applied, board changes', () => {
   //arrange
@@ -54,7 +55,7 @@ test('evaluateSubmission - when play is applied, board changes', () => {
   /* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
 
   const koCompareBoard:string[][]=stringBoardToArray(koCompareBoardString);
-  const stonePlay: StonePlay=new StonePlay(2,0,'b');
+  const stonePlay: StonePlay=new StonePlay(2,0,BLACK_STONE);
   const submission: Submission= new Submission(stonePlay,koCompareBoard,startingBoard);
 
 //Act
@@ -63,7 +64,7 @@ test('evaluateSubmission - when play is applied, board changes', () => {
 //assert
   const areSame=(JSON.stringify(startingBoard) === JSON.stringify(submissionResult.newBoard));
   expect(areSame).toBeFalsy();
-  expect(submissionResult.newBoard[2][0]).toBe('b');
+  expect(submissionResult.newBoard[2][0]).toBe(BLACK_STONE);
   expect(submissionResult.capturedStones).toBe(0);
    expect(submissionResult.isLegalPlay).toBe(true);
    expect(submissionResult.isAtari).toBe(false);
@@ -120,7 +121,7 @@ test('evaluateSubmission - when killing play is applied, defender group loses st
   /* 17  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //17
   /* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
   const koCompareBoard:string[][]=stringBoardToArray( KoeCompareBoardString);
-  const stonePlay: StonePlay=new StonePlay(2,0,'b');
+  const stonePlay: StonePlay=new StonePlay(2,0,BLACK_STONE);
   const submission: Submission= new Submission(stonePlay,koCompareBoard,startingBoard);
 
 //Act
@@ -185,7 +186,7 @@ test('evaluateSubmission  - when play reduces defender group liberties to 1, ata
   /* 17  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //17
   /* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
   const koCompareBoard:string[][]=stringBoardToArray(koeCompareBoardString);
-  const stonePlay: StonePlay=new StonePlay(3,1,'b');
+  const stonePlay: StonePlay=new StonePlay(3,1,BLACK_STONE);
   const submission: Submission= new Submission(stonePlay,koCompareBoard,startingBoard);
 
 //Act
@@ -248,7 +249,7 @@ const startingBoard:string[][]=stringBoardToArray(startingBoardString);
   /* 17  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //17
   /* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
   const koCompareBoard:string[][]=stringBoardToArray(koeCompareBoardString);
-  const stonePlay: StonePlay=new StonePlay(2,0,'b');
+  const stonePlay: StonePlay=new StonePlay(2,0,BLACK_STONE);
   const submission: Submission= new Submission(stonePlay,koCompareBoard,startingBoard);
 
 //Act
@@ -312,7 +313,7 @@ const startingBoard:string[][]=stringBoardToArray(startingBoardString);
   /* 17  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //17
   /* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
   const koCompareBoard:string[][]=stringBoardToArray(koeCompareBoardString);
-  const stonePlay: StonePlay=new StonePlay(2,0,'w');
+  const stonePlay: StonePlay=new StonePlay(2,0,WHITE_STONE);
   const submission: Submission= new Submission(stonePlay,koCompareBoard,startingBoard);
 
 //Act
@@ -378,7 +379,7 @@ const startingBoard:string[][]=stringBoardToArray(startingBoardString);
   /* 17  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //17
   /* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
   const koCompareBoard:string[][]=stringBoardToArray(koeCompareBoardString);
-  const stonePlay: StonePlay=new StonePlay(3,3,'w');
+  const stonePlay: StonePlay=new StonePlay(3,3,WHITE_STONE);
   const submission: Submission= new Submission(stonePlay,koCompareBoard,startingBoard);
 
 //Act
@@ -444,7 +445,7 @@ test('internal - if cloneBoard used, boards are identical', () => {
     /* 18  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,";  //18
     const templateBoard:string[][]=stringBoardToArray(boardString);
   
-    const stonePlay: StonePlay=new StonePlay(2,0,'b');
+    const stonePlay: StonePlay=new StonePlay(2,0,BLACK_STONE);
 
     const submission: Submission= new Submission(stonePlay,templateBoard,templateBoard);
     //act
@@ -484,7 +485,7 @@ test('internal - if cloneBoard used, boards are identical', () => {
     const templateBoard:string[][]=stringBoardToArray(boardString);
   
 
-    const stonePlay: StonePlay=new StonePlay(2,0,'b');
+    const stonePlay: StonePlay=new StonePlay(2,0,BLACK_STONE);
 
     const submission: Submission= new Submission(stonePlay,templateBoard,templateBoard);
 
@@ -495,7 +496,7 @@ test('internal - if cloneBoard used, boards are identical', () => {
 //assurt
     const areSame=(JSON.stringify(templateBoard) === JSON.stringify(workBoard));
     expect(areSame).toBeFalsy();
-    expect(workBoard[2][0]).toBe('b');
+    expect(workBoard[2][0]).toBe(BLACK_STONE);
 
   });
 
@@ -528,7 +529,7 @@ test('internal - if cloneBoard used, boards are identical', () => {
     const templateBoard:string[][]=stringBoardToArray(boardString);
   
 
-    const stonePlay: StonePlay=new StonePlay(2,0,'b');
+    const stonePlay: StonePlay=new StonePlay(2,0,BLACK_STONE);
 
     const submission: Submission= new Submission(stonePlay,templateBoard,templateBoard);
 
@@ -546,7 +547,7 @@ test('internal - if cloneBoard used, boards are identical', () => {
     const goBoard = new GoBoard(workBoard);
 
     goBoard.applyGroupAnIntersectionToBoard();
-    const defenderColor=submission.stonePlay.stoneColor==='w'?'b':'w';
+    const defenderColor=submission.stonePlay.stoneColor===WHITE_STONE?BLACK_STONE:WHITE_STONE;
     const defenderGroups=getGroupsByStoneColor(goBoard.stoneGroups,defenderColor);
     const deadDefenderGroups=getDeadGroups(defenderGroups);
     //removeDeadStones(workBoard,deadDefenderGroups);
@@ -583,7 +584,7 @@ test('internal - if cloneBoard used, boards are identical', () => {
     const templateBoard:string[][]=stringBoardToArray(boardString);
   
 
-    const stonePlay: StonePlay=new StonePlay(2,0,'b');
+    const stonePlay: StonePlay=new StonePlay(2,0,BLACK_STONE);
 
     const submission: Submission= new Submission(stonePlay,templateBoard,templateBoard);
 
@@ -601,7 +602,7 @@ test('internal - if cloneBoard used, boards are identical', () => {
     const goBoard = new GoBoard(workBoard);
 
     goBoard.applyGroupAnIntersectionToBoard();
-    const defenderColor=submission.stonePlay.stoneColor==='w'?'b':'w';
+    const defenderColor=submission.stonePlay.stoneColor===WHITE_STONE?BLACK_STONE:WHITE_STONE;
     const defenderGroups=getGroupsByStoneColor(goBoard.stoneGroups,defenderColor);
     const deadDefenderGroups=getDeadGroups(defenderGroups);
     //const deadDefenderGroups=findDeadDefenderGroups(goBoard.stoneGroups,defenderColor);
@@ -669,7 +670,7 @@ test('internal - if cloneBoard used, boards are identical', () => {
 
 
 
-    const stonePlay: StonePlay=new StonePlay(2,0,'b');
+    const stonePlay: StonePlay=new StonePlay(2,0,BLACK_STONE);
 
     const submission: Submission= new Submission(stonePlay,templateBoard,templateBoard);
 
@@ -687,7 +688,7 @@ test('internal - if cloneBoard used, boards are identical', () => {
     const goBoard = new GoBoard(workBoard);
 
     goBoard.applyGroupAnIntersectionToBoard();
-    const defenderColor=submission.stonePlay.stoneColor==='w'?'b':'w';
+    const defenderColor=submission.stonePlay.stoneColor===WHITE_STONE?BLACK_STONE:WHITE_STONE;
     const defenderGroups=getGroupsByStoneColor(goBoard.stoneGroups,defenderColor);
     const deadDefenderGroups=getDeadGroups(defenderGroups);
 
@@ -720,7 +721,7 @@ test('new goBoard to be constructed correctly', () => {
   const goBoard = new GoBoard( testBoard);
   expect(goBoard.board.length).toBe(19);
   expect(goBoard.board[18].length).toBe(19);
-  expect(goBoard.board[18][18].strinColor).toBe('_');
+  expect(goBoard.board[18][18].strinColor).toBe(EMPTY_INTERSECTION);
   expect(goBoard.board[15][15].col).toBe(15);
   expect(goBoard.board[15][15].row).toBe(15);
 });
@@ -787,7 +788,7 @@ test('removeDeadStones - when play reduces defener group liberties to 1, atari i
 
 
 
-  const stonePlay: StonePlay=new StonePlay(3,1,'b');
+  const stonePlay: StonePlay=new StonePlay(3,1,BLACK_STONE);
 
   const submission: Submission= new Submission(stonePlay,templateBoard,templateBoard);
 
@@ -805,7 +806,7 @@ test('removeDeadStones - when play reduces defener group liberties to 1, atari i
   const goBoard = new GoBoard(workBoard);
 
   goBoard.applyGroupAnIntersectionToBoard();
-  const defenderColor=submission.stonePlay.stoneColor==='w'?'b':'w';
+  const defenderColor=submission.stonePlay.stoneColor===WHITE_STONE?BLACK_STONE:WHITE_STONE;
   const defenderGroups=getGroupsByStoneColor(goBoard.stoneGroups,defenderColor);
   const deadDefenderGroups=getDeadGroups(defenderGroups);
   // const deadDefenderGroups=findDeadDefenderGroups(goBoard.stoneGroups,defenderColor);
@@ -913,7 +914,7 @@ test('ko - when play violates ko rule, isLegalPlay is set to false', () => {
 
 
 
-  const stonePlay: StonePlay=new StonePlay(0,3,'w');
+  const stonePlay: StonePlay=new StonePlay(0,3,WHITE_STONE);
 
   const submission: Submission= new Submission(stonePlay,koCompareStringBoard,startingBoard);
 
@@ -951,7 +952,7 @@ test('ko - when play violates ko rule, isLegalPlay is set to false', () => {
   // //const goBoard = new GoBoard(workBoard);
 
   // goBoard.applyGroupAnIntersectionToBoard();
-  // const defenderColor=submission.stonePlay.stoneColor==='w'?'b':'w';
+  // const defenderColor=submission.stonePlay.stoneColor===WHITE_STONE?BLACK_STONE:WHITE_STONE;
   // const defenderGroups=getGroupsByStoneColor(goBoard.stoneGroups,defenderColor);
   // const deadDefenderGroups=getDeadGroups(defenderGroups);
   // // const deadDefenderGroups=findDeadDefenderGroups(goBoard.stoneGroups,defenderColor);
@@ -1061,7 +1062,7 @@ test('ko - not false positive for ko rule', () => {
 
 
 
-  const stonePlay: StonePlay=new StonePlay(0,3,'w');
+  const stonePlay: StonePlay=new StonePlay(0,3,WHITE_STONE);
 
   const submission: Submission= new Submission(stonePlay,koCompareStringBoard,startingBoard);
 
@@ -1099,7 +1100,7 @@ test('ko - not false positive for ko rule', () => {
   // //const goBoard = new GoBoard(workBoard);
 
   // goBoard.applyGroupAnIntersectionToBoard();
-  // const defenderColor=submission.stonePlay.stoneColor==='w'?'b':'w';
+  // const defenderColor=submission.stonePlay.stoneColor===WHITE_STONE?BLACK_STONE:WHITE_STONE;
   // const defenderGroups=getGroupsByStoneColor(goBoard.stoneGroups,defenderColor);
   // const deadDefenderGroups=getDeadGroups(defenderGroups);
   // // const deadDefenderGroups=findDeadDefenderGroups(goBoard.stoneGroups,defenderColor);
@@ -1159,7 +1160,7 @@ test('ko - not false positive for ko rule', () => {
 //   const templateBoard:string[][]=stringBoardToArray(boardString);
 
 //   const goBoard = new GoBoard( templateBoard);
-//   goBoard.groupAnIntersection(goBoard.board[0][0],'w',null);
+//   goBoard.groupAnIntersection(goBoard.board[0][0],WHITE_STONE,null);
 
 //   expect(goBoard.stoneGroups.length).toBe(1);
   

@@ -1,5 +1,7 @@
+import { EMPTY_INTERSECTION } from "../services/models/constants";
+
 export function emptyBoard():string[][]{
-    const result = new Array(19).fill('_').map(()=>new Array(19).fill('_'));
+    const result = new Array(19).fill(EMPTY_INTERSECTION).map(()=>new Array(19).fill(EMPTY_INTERSECTION));
     return result;
 }
 

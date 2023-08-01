@@ -1,4 +1,5 @@
 //import { StonePlay } from "./models/stonePlay";
+import { EMPTY_INTERSECTION } from "./models/constants";
 import { Submission } from "./models/submission";
 import { SubmissionResult } from "./models/submissionResult";
 
@@ -25,7 +26,7 @@ function placeStone(submission:Submission): string [][] {
 
 //function checkIsCollision( currentBoard:string[][], stonePlay:StonePlay){
 function checkIsCollision( submission:Submission){
-        if(submission.currentBoard[submission.stonePlay.row][submission.stonePlay.col]!=='_'){
+        if(submission.currentBoard[submission.stonePlay.row][submission.stonePlay.col]!==EMPTY_INTERSECTION){
         return true;
     }
     return false;

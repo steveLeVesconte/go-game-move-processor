@@ -1,5 +1,5 @@
-export enum StoneColor {
-    BLACK='b',
-    WHITE='w',
-    EMPTY='_',
-}
+// export enum StoneColor {
+//     BLACK=BLACK_STONE,
+//     WHITE=WHITE_STONE,
+//     EMPTY=EMPTY_INTERSECTION,
+// }

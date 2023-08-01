@@ -4,39 +4,40 @@ import { test, expect } from 'vitest';
 // import { StonePlay } from '../models/stonePlay';
 import { emptyBoard, stringBoardToArray } from '../../utilities/boardUtilities';
 import { GoBoard } from './goBoard';
+import { BLACK_STONE, EMPTY_INTERSECTION, WHITE_STONE } from './constants';
 test('new goBoard to be constructed correctly', () => {
   const testBoard = emptyBoard();
   const goBoard = new GoBoard( testBoard);
-  // const stonePlay = new StonePlay(3,4,'b');
+  // const stonePlay = new StonePlay(3,4,BLACK_STONE);
   // const sumission=new Submission(stonePlay, emptyBoard(), emptyBoard());
   // const result=evaluatePlay(sumission);
   expect(goBoard.board.length).toBe(19);
   expect(goBoard.board[18].length).toBe(19);
-  expect(goBoard.board[18][18].strinColor).toBe('_');
+  expect(goBoard.board[18][18].strinColor).toBe(EMPTY_INTERSECTION);
   expect(goBoard.board[15][15].col).toBe(15);
   expect(goBoard.board[15][15].row).toBe(15);
-  expect (countIn2DArray(goBoard, '_' )).toBe(361);
+  expect (countIn2DArray(goBoard, EMPTY_INTERSECTION )).toBe(361);
 });
 
 test('new goBoard to be contain 2 stones', () => {
   const testBoard = emptyBoard();
 
-  testBoard[3][4]='b';
-  testBoard[15][5]='w';
+  testBoard[3][4]=BLACK_STONE;
+  testBoard[15][5]=WHITE_STONE;
 
   const goBoard = new GoBoard( testBoard);
 
-  // const stonePlay = new StonePlay(3,4,'b');
+  // const stonePlay = new StonePlay(3,4,BLACK_STONE);
   // const sumission=new Submission(stonePlay, emptyBoard(), emptyBoard());
   // const result=evaluatePlay(sumission);
   expect(goBoard.board.length).toBe(19);
   expect(goBoard.board[18].length).toBe(19);
-  expect(goBoard.board[18][18].strinColor).toBe('_');
-  expect(goBoard.board[3][4].strinColor).toBe('b');
-  expect(goBoard.board[15][5].strinColor).toBe('w');
+  expect(goBoard.board[18][18].strinColor).toBe(EMPTY_INTERSECTION);
+  expect(goBoard.board[3][4].strinColor).toBe(BLACK_STONE);
+  expect(goBoard.board[15][5].strinColor).toBe(WHITE_STONE);
   expect(goBoard.board[15][15].col).toBe(15);
   expect(goBoard.board[15][15].row).toBe(15);
-  expect (countIn2DArray(goBoard, '_' )).toBe(359);
+  expect (countIn2DArray(goBoard, EMPTY_INTERSECTION )).toBe(359);
 });
 
 
@@ -44,13 +45,13 @@ test('new goBoard to be contain 2 stones', () => {
 test('if two adjacent siblings, then group with two intersections', () => {
   const testBoard = emptyBoard();
 
-  testBoard[3][4]='b';
-  testBoard[3][5]='b';
+  testBoard[3][4]=BLACK_STONE;
+  testBoard[3][5]=BLACK_STONE;
 
   const goBoard = new GoBoard( testBoard);
-  goBoard.groupAnIntersection(goBoard.board[3][4],'b',null);
+  goBoard.groupAnIntersection(goBoard.board[3][4],BLACK_STONE,null);
 
-  // const stonePlay = new StonePlay(3,4,'b');
+  // const stonePlay = new StonePlay(3,4,BLACK_STONE);
   // const sumission=new Submission(stonePlay, emptyBoard(), emptyBoard());
   // const result=evaluatePlay(sumission);
   expect(goBoard.stoneGroups.length).toBe(1);
@@ -61,29 +62,29 @@ test('if two adjacent siblings, then group with two intersections', () => {
   
   // expect(goBoard.board.length).toBe(19);
   // expect(goBoard.board[18].length).toBe(19);
-  // expect(goBoard.board[18][18].strinColor).toBe('_');
-  // expect(goBoard.board[3][4].strinColor).toBe('b');
-  // expect(goBoard.board[15][5].strinColor).toBe('w');
+  // expect(goBoard.board[18][18].strinColor).toBe(EMPTY_INTERSECTION);
+  // expect(goBoard.board[3][4].strinColor).toBe(BLACK_STONE);
+  // expect(goBoard.board[15][5].strinColor).toBe(WHITE_STONE);
   // expect(goBoard.board[15][15].col).toBe(15);
   // expect(goBoard.board[15][15].row).toBe(15);
-  // expect (countIn2DArray(goBoard, '_' )).toBe(359);
+  // expect (countIn2DArray(goBoard, EMPTY_INTERSECTION )).toBe(359);
 });
 
 
 test('if black stones in u shape, then group with 7 intersections', () => {
   const testBoard = emptyBoard();
 
-  testBoard[13][4]='b';
-  testBoard[14][4]='b';
-  testBoard[15][4]='b';
-  testBoard[15][5]='b';
-  testBoard[15][6]='b';
-  testBoard[14][6]='b';
-  testBoard[13][6]='b';
+  testBoard[13][4]=BLACK_STONE;
+  testBoard[14][4]=BLACK_STONE;
+  testBoard[15][4]=BLACK_STONE;
+  testBoard[15][5]=BLACK_STONE;
+  testBoard[15][6]=BLACK_STONE;
+  testBoard[14][6]=BLACK_STONE;
+  testBoard[13][6]=BLACK_STONE;
 
 
   const goBoard = new GoBoard( testBoard);
-  goBoard.groupAnIntersection(goBoard.board[13][4],'b',null);
+  goBoard.groupAnIntersection(goBoard.board[13][4],BLACK_STONE,null);
 
   expect(goBoard.stoneGroups.length).toBe(1);
     expect(goBoard.stoneGroups[0].intersections.length).toBe(7);
@@ -97,19 +98,19 @@ test('if black stones in u shape, then group with 7 intersections', () => {
 test('if black stones in u shape, then not fooled by corner stones and white stones', () => {
   const testBoard = emptyBoard();
 
-  testBoard[13][4]='b';
-  testBoard[14][4]='b';
-  testBoard[15][4]='b';
-  testBoard[15][5]='b';
-  testBoard[15][6]='b';
-  testBoard[14][6]='b';
-  testBoard[13][6]='b';
-  testBoard[12][7]='b';// corner stone -- attempt to fool
-  testBoard[14][5]='w';// adjacent white stone -- attempt to fool
+  testBoard[13][4]=BLACK_STONE;
+  testBoard[14][4]=BLACK_STONE;
+  testBoard[15][4]=BLACK_STONE;
+  testBoard[15][5]=BLACK_STONE;
+  testBoard[15][6]=BLACK_STONE;
+  testBoard[14][6]=BLACK_STONE;
+  testBoard[13][6]=BLACK_STONE;
+  testBoard[12][7]=BLACK_STONE;// corner stone -- attempt to fool
+  testBoard[14][5]=WHITE_STONE;// adjacent white stone -- attempt to fool
 
 
   const goBoard = new GoBoard( testBoard);
-  goBoard.groupAnIntersection(goBoard.board[13][4],'b',null);
+  goBoard.groupAnIntersection(goBoard.board[13][4],BLACK_STONE,null);
 
   expect(goBoard.stoneGroups.length).toBe(3);
     expect(goBoard.stoneGroups[1].intersections.length).toBe(7);
@@ -122,20 +123,20 @@ test('if black stones in u shape, then not fooled by corner stones and white sto
 test('if black stones in o shape, then group with 8 intersections', () => {
   const testBoard = emptyBoard();
 
-  testBoard[13][4]='b';
-  testBoard[14][4]='b';
-  testBoard[15][4]='b';
-  testBoard[15][5]='b';
-  testBoard[15][6]='b';
-  testBoard[14][6]='b';
-  testBoard[13][6]='b';
-  testBoard[13][5]='b';
+  testBoard[13][4]=BLACK_STONE;
+  testBoard[14][4]=BLACK_STONE;
+  testBoard[15][4]=BLACK_STONE;
+  testBoard[15][5]=BLACK_STONE;
+  testBoard[15][6]=BLACK_STONE;
+  testBoard[14][6]=BLACK_STONE;
+  testBoard[13][6]=BLACK_STONE;
+  testBoard[13][5]=BLACK_STONE;
 
 
   const goBoard = new GoBoard( testBoard);
-  goBoard.groupAnIntersection(goBoard.board[13][4],'b',null);
+  goBoard.groupAnIntersection(goBoard.board[13][4],BLACK_STONE,null);
 
-  // const stonePlay = new StonePlay(3,4,'b');
+  // const stonePlay = new StonePlay(3,4,BLACK_STONE);
   // const sumission=new Submission(stonePlay, emptyBoard(), emptyBoard());
   // const result=evaluatePlay(sumission);
   expect(goBoard.stoneGroups.length).toBe(1);
@@ -145,12 +146,12 @@ test('if black stones in o shape, then group with 8 intersections', () => {
   
   // expect(goBoard.board.length).toBe(19);
   // expect(goBoard.board[18].length).toBe(19);
-  // expect(goBoard.board[18][18].strinColor).toBe('_');
-  // expect(goBoard.board[3][4].strinColor).toBe('b');
-  // expect(goBoard.board[15][5].strinColor).toBe('w');
+  // expect(goBoard.board[18][18].strinColor).toBe(EMPTY_INTERSECTION);
+  // expect(goBoard.board[3][4].strinColor).toBe(BLACK_STONE);
+  // expect(goBoard.board[15][5].strinColor).toBe(WHITE_STONE);
   // expect(goBoard.board[15][15].col).toBe(15);
   // expect(goBoard.board[15][15].row).toBe(15);
-  // expect (countIn2DArray(goBoard, '_' )).toBe(359);
+  // expect (countIn2DArray(goBoard, EMPTY_INTERSECTION )).toBe(359);
 });
 
 
@@ -183,7 +184,7 @@ test('if white stones in test template board, then group with 2 intersections', 
   const templateBoard:string[][]=stringBoardToArray(boardString);
 
   const goBoard = new GoBoard( templateBoard);
-  goBoard.groupAnIntersection(goBoard.board[0][0],'w',null);
+  goBoard.groupAnIntersection(goBoard.board[0][0],WHITE_STONE,null);
 
   expect(goBoard.stoneGroups.length).toBe(1);
   
@@ -224,7 +225,7 @@ test('if white stones in spirole shapge board, then group with 45 intersections'
   const templateBoard:string[][]=stringBoardToArray(boardString);
 
   const goBoard = new GoBoard( templateBoard);
-  goBoard.groupAnIntersection(goBoard.board[0][0],'w',null);
+  goBoard.groupAnIntersection(goBoard.board[0][0],WHITE_STONE,null);
 
   expect(goBoard.stoneGroups.length).toBe(1);
   
@@ -264,13 +265,13 @@ test('if two groups in spirole shapge board, then group with 45 intersections', 
   const templateBoard:string[][]=stringBoardToArray(boardString);
 
   const goBoard = new GoBoard( templateBoard);
- // goBoard.groupAnIntersection(goBoard.board[0][0],'w',null);
+ // goBoard.groupAnIntersection(goBoard.board[0][0],WHITE_STONE,null);
 
   expect(goBoard.stoneGroups.length).toBe(2);
   
   expect(goBoard.stoneGroups[0].intersections.length).toBe(44);
 
- //goBoard.groupAnIntersection(goBoard.board[2][17],'b',null);
+ //goBoard.groupAnIntersection(goBoard.board[2][17],BLACK_STONE,null);
 
   expect(goBoard.stoneGroups.length).toBe(2);
   
@@ -310,13 +311,13 @@ test('if two groups with blobs and wholes board, then group with correct interse
   const templateBoard:string[][]=stringBoardToArray(boardString);
 
   const goBoard = new GoBoard( templateBoard);
-  //goBoard.groupAnIntersection(goBoard.board[2][2],'w',null);
+  //goBoard.groupAnIntersection(goBoard.board[2][2],WHITE_STONE,null);
 
   expect(goBoard.stoneGroups.length).toBe(2);
   
   expect(goBoard.stoneGroups[0].intersections.length).toBe(20);
 
-  goBoard.groupAnIntersection(goBoard.board[14][6],'b',null);
+  goBoard.groupAnIntersection(goBoard.board[14][6],BLACK_STONE,null);
 
   //expect(goBoard.stoneGroups.length).toBe(2);
   
@@ -360,14 +361,14 @@ test('if two groups with blobs and wholes board, then group with correct interse
   expect(goBoard.stoneGroups.length).toBe(2);
   
   expect(goBoard.stoneGroups[0].intersections.length).toBe(20);
-  expect(goBoard.stoneGroups[0].stoneColor).toBe('w');
+  expect(goBoard.stoneGroups[0].stoneColor).toBe(WHITE_STONE);
 
- // goBoard.groupAnIntersection(goBoard.board[14][6],'b',null);
+ // goBoard.groupAnIntersection(goBoard.board[14][6],BLACK_STONE,null);
 
   //expect(goBoard.stoneGroups.length).toBe(2);
   
   expect(goBoard.stoneGroups[1].intersections.length).toBe(32);
-  expect(goBoard.stoneGroups[1].stoneColor).toBe('b');
+  expect(goBoard.stoneGroups[1].stoneColor).toBe(BLACK_STONE);
 
 });
 
@@ -413,16 +414,16 @@ test('if many small groups, then group with correct intersections with liberties
   /* 02  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //02
 
   expect(goBoard.stoneGroups[0].intersections.length).toBe(5);
-  expect(goBoard.stoneGroups[0].stoneColor).toBe('w');
+  expect(goBoard.stoneGroups[0].stoneColor).toBe(WHITE_STONE);
   expect(goBoard.stoneGroups[0].libertiesSet.size).toBe(5);
   
    //evauate 2nd group b at 0,3
   expect(goBoard.stoneGroups[1].intersections.length).toBe(1);
-  expect(goBoard.stoneGroups[1].stoneColor).toBe('b');
+  expect(goBoard.stoneGroups[1].stoneColor).toBe(BLACK_STONE);
 
   //evauate 3rd group - surounded b at 0,5
   expect(goBoard.stoneGroups[3].intersections.length).toBe(1);
-  expect(goBoard.stoneGroups[3].stoneColor).toBe('b');
+  expect(goBoard.stoneGroups[3].stoneColor).toBe(BLACK_STONE);
   expect(goBoard.stoneGroups[3].libertiesSet.size).toBe(0);
 
 
@@ -432,12 +433,12 @@ test('if many small groups, then group with correct intersections with liberties
   /* 09  */"_ _ _ _ b w _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //09
   /* 10  */"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _,"+  //10
   expect(goBoard.stoneGroups[11].intersections.length).toBe(1);
-  expect(goBoard.stoneGroups[11].stoneColor).toBe('w');
+  expect(goBoard.stoneGroups[11].stoneColor).toBe(WHITE_STONE);
   expect(goBoard.stoneGroups[11].libertiesSet.size).toBe(0);
 
    //evauate 13th group - surounded b at 9,4
   expect(goBoard.stoneGroups[13].intersections.length).toBe(1);
-  expect(goBoard.stoneGroups[13].stoneColor).toBe('b');
+  expect(goBoard.stoneGroups[13].stoneColor).toBe(BLACK_STONE);
   expect(goBoard.stoneGroups[13].libertiesSet.size).toBe(2);
 });
 
@@ -476,11 +477,11 @@ test('if two groups with blobs and wholes board, then group with correct interse
   expect(goBoard.stoneGroups.length).toBe(5);
   
   expect(goBoard.stoneGroups[0].intersections.length).toBe(3);
-  expect(goBoard.stoneGroups[0].stoneColor).toBe('w');
+  expect(goBoard.stoneGroups[0].stoneColor).toBe(WHITE_STONE);
   expect(goBoard.stoneGroups[0].libertiesSet.size).toBe(2);
 
   expect(goBoard.stoneGroups[2].intersections.length).toBe(3);
-  expect(goBoard.stoneGroups[2].stoneColor).toBe('w');
+  expect(goBoard.stoneGroups[2].stoneColor).toBe(WHITE_STONE);
   expect(goBoard.stoneGroups[2].libertiesSet.size).toBe(2);
 
 });
@@ -518,11 +519,11 @@ test('if two groups with blobs and wholes board, then group with correct interse
   expect(goBoard.stoneGroups.length).toBe(7);
   
   expect(goBoard.stoneGroups[2].intersections.length).toBe(15);
-  expect(goBoard.stoneGroups[2].stoneColor).toBe('b');
+  expect(goBoard.stoneGroups[2].stoneColor).toBe(BLACK_STONE);
   expect(goBoard.stoneGroups[2].libertiesSet.size).toBe(4);
 
   // expect(goBoard.stoneGroups[2].intersections.length).toBe(3);
-  // expect(goBoard.stoneGroups[2].stoneColor).toBe('w');
+  // expect(goBoard.stoneGroups[2].stoneColor).toBe(WHITE_STONE);
   // expect(goBoard.stoneGroups[2].libertiesSet.size).toBe(2);
 
 });

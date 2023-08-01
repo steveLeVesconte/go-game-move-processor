@@ -1,3 +1,4 @@
+import { BLACK_STONE, EMPTY_INTERSECTION, WHITE_STONE } from "./constants";
 import { GoBoard } from "./goBoard";
 import { StoneGroup } from "./stoneGroup";
 import { StonePlay } from "./stonePlay";
@@ -17,7 +18,7 @@ import { SubmissionResult } from "./submissionResult";
         // board size invalid either
         // invalide characters in board either
          
-        const defenderColor=submission.stonePlay.stoneColor==='w'?'b':'w';
+        const defenderColor=submission.stonePlay.stoneColor===WHITE_STONE?BLACK_STONE:WHITE_STONE;
 
        if(checkIsCollision(submission.currentBoard,submission.stonePlay)) return colissionResult(submission);
 
@@ -163,7 +164,7 @@ function intializeWorkBoardWithStonePlay(submission:Submission):string[][]{
             let deadStoneCount=0;
             for(const group of deadGroups){
                 for(const intersection of group.intersections){
-                    stringBoard[intersection.row][intersection.col]='_';
+                    stringBoard[intersection.row][intersection.col]=EMPTY_INTERSECTION;
                     deadStoneCount++;
                     
                 }
@@ -178,7 +179,7 @@ function intializeWorkBoardWithStonePlay(submission:Submission):string[][]{
         //     let deadStoneCount=0;
         //     for(const group of deadGroups){
         //         for(const intersection of group.intersections){
-        //             stringBoard[intersection.row][intersection.col]='_';
+        //             stringBoard[intersection.row][intersection.col]=EMPTY_INTERSECTION;
         //             deadStoneCount++;
                     
         //         }
@@ -190,7 +191,7 @@ function intializeWorkBoardWithStonePlay(submission:Submission):string[][]{
          return (JSON.stringify(newBoard) === JSON.stringify(koCompareBoard));
         }
         export function checkIsCollision(currentBoard:string[][],stonePlay:StonePlay):boolean{
-          return (currentBoard[stonePlay.row][stonePlay.col]!=="_");
+          return (currentBoard[stonePlay.row][stonePlay.col]!==EMPTY_INTERSECTION);
         }
 
   //  }

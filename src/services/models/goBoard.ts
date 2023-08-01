@@ -1,3 +1,4 @@
+import { EMPTY_INTERSECTION } from "./constants";
 import { Intersection } from "./intersection";
 import { StoneGroup } from "./stoneGroup";
 //import { Submission } from "./submission";
@@ -28,7 +29,7 @@ populateGoBoard(stringBoard : string[][]):Intersection[][]{
 groupAnIntersection(intersection:Intersection, stoneColor:string, stoneGroup :StoneGroup|null):void{
   let currentGroup:StoneGroup|null = null;
   //let currentGroupNumber:number|null=null;
-  //if(intersection.strinColor==='_') return;
+  //if(intersection.strinColor===EMPTY_INTERSECTION) return;
   if(intersection.group)return;
   if(intersection.strinColor!==stoneColor) return;
   if(stoneGroup){
@@ -48,7 +49,7 @@ groupAnIntersection(intersection:Intersection, stoneColor:string, stoneGroup :St
   intersection.adjacentIntersections.forEach((i)=>{
     
     const targetIntersection=this.board[i.row][i.col];
-    if(targetIntersection.strinColor==='_') {
+    if(targetIntersection.strinColor===EMPTY_INTERSECTION) {
       currentGroup!.liberties++;
       currentGroup?.libertiesSet.add(targetIntersection.row.toString().padStart(2, '0')+ targetIntersection.col.toString().padStart(2, '0'));
     }
@@ -64,14 +65,10 @@ applyGroupAnIntersectionToBoard(
 ): void {
   for (const row of this.board) {
     for (const intersection of row) {
-      if((intersection.strinColor!=='_') && !intersection.group){
-     //   if(['w','b'].includes(intersection.strinColor) && !intersection.group){
+      if((intersection.strinColor!==EMPTY_INTERSECTION) && !intersection.group){
+     //   if([WHITE_STONE,BLACK_STONE].includes(intersection.strinColor) && !intersection.group){
           this.groupAnIntersection(intersection,intersection.strinColor,null);
       }
-      // if(intersection.strinColor==="w"&& !intersection.group){
-  
-      // this.groupAnIntersection(intersection,'w',null);
-      // }
     }
   }
 }
