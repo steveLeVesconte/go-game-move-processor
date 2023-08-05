@@ -1,2 +1,6 @@
-export {default as sum} from "./services/sum";
-export {default as subtract} from "./services/subtract";
+export { BLACK_STONE, WHITE_STONE, EMPTY_INTERSECTION } from "./services/models/constants";
+export { evaluateSubmission } from "./services/models/gameReferee";
+export { StonePlay } from "./services/models/stonePlay";
+export { Submission } from "./services/models/submission";
+export { BaseSubmissionResult } from "./services/models/submissionResult";
+export { stringBoardToArray } from "./utilities/boardUtilities";
