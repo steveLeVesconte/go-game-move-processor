@@ -1,18 +1,27 @@
 
-import { BLACK_STONE, EMPTY_INTERSECTION, WHITE_STONE } from "./constants";
+import { ACTION_EXIT, ACTION_PASS, BLACK_STONE, EMPTY_INTERSECTION, WHITE_STONE } from "./constants";
 import { GoBoard } from "./goBoard";
 import { StoneGroup } from "./stoneGroup";
 import { StonePlay } from "./stonePlay";
 import { Submission } from "./submission";
-import { BaseSubmissionResult, SubmissionResultKo, SubmissionResultLegal, SubmissionResultNotValid, SubmissionResultSuiside } from "./submissionResult";
+import { BaseSubmissionResult, SubmissionResultKo, SubmissionResultLegalStonePlay, SubmissionResultNotValid, SubmissionResultPass, SubmissionResultQuit, SubmissionResultSuiside } from "./submissionResult";
 import SubmissionHandlerResult from "./submissionHandlerResult";
 
 export function evaluateSubmission(submission: Submission): BaseSubmissionResult {
 
-    let handlerResult = handleMissingStonePlay(submission);
-    if (handlerResult.submissionHandled) return handlerResult.submissionResult;
+    // let handlerResult = handleMissingStonePlay(submission);
+    // if (handlerResult.submissionHandled) return handlerResult.submissionResult;
 
-    handlerResult = handleInvalidStonePlay(submission);
+    if(submission.actionType==ACTION_EXIT){
+      return new SubmissionResultQuit();
+    }
+
+    
+    if(submission.actionType==ACTION_PASS){
+        return new SubmissionResultPass(submission.currentBoard,submission.currentBoard,submission);
+      }
+
+    let handlerResult = handleInvalidStonePlay(submission);
     if (handlerResult.submissionHandled) return handlerResult.submissionResult;
 
     handlerResult = handleMissingOrInvalidKoCompare(submission);
@@ -29,31 +38,31 @@ function handleValidStonePlay(submission: Submission): SubmissionHandlerResult {
     const workBoard = intializeWorkBoardWithStonePlay(submission);
     const goBoard = new GoBoard(workBoard);
 
-    const defenderColor = submission.stonePlay.stoneColor === WHITE_STONE ? BLACK_STONE : WHITE_STONE;
+    const defenderColor = submission.stoneColorOfThisTurn === WHITE_STONE ? BLACK_STONE : WHITE_STONE;
     const defenderGroups = getGroupsByStoneColor(goBoard.stoneGroups, defenderColor);
     const deadDefenderGroups = getDeadGroups(defenderGroups);
 
     if (checkIsSuisidePlay(deadDefenderGroups, goBoard, submission)) {
-        return new SubmissionHandlerResult(true, new SubmissionResultSuiside(submission.currentBoard));
+        return new SubmissionHandlerResult(true, new SubmissionResultSuiside(submission.currentBoard,submission.previousBoard,submission));
     }
 
     const deadDefenderStones = removeDeadStones(workBoard, deadDefenderGroups);//not a pure function - workboard is changed
 
     if (checkIsKo(workBoard, submission.previousBoard)) {
-        return new SubmissionHandlerResult(true, new SubmissionResultKo(submission.currentBoard));
+        return new SubmissionHandlerResult(true, new SubmissionResultKo(submission.currentBoard,submission.previousBoard,submission));
     }
 
-    return new SubmissionHandlerResult(true, new SubmissionResultLegal(workBoard, deadDefenderStones, checkForAtri(defenderGroups)));
+    return new SubmissionHandlerResult(true, new SubmissionResultLegalStonePlay(workBoard,submission.currentBoard, deadDefenderStones, checkForAtri(defenderGroups),submission));
 }
 
-function handleMissingStonePlay(submission: Submission): SubmissionHandlerResult {
+// function handleMissingStonePlay(submission: Submission): SubmissionHandlerResult {
 
-    if (submission.stonePlay == null) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, "Missing StonePlay");
-        return new SubmissionHandlerResult(true, result);
-    }
-    return new SubmissionHandlerResult(false, new SubmissionResultNotValid(submission.currentBoard, "Sumission Not Yet Handled"));
-}
+//     if (submission.stonePlay == null) {
+//         const result = new SubmissionResultNotValid(submission.currentBoard, "Missing StonePlay");
+//         return new SubmissionHandlerResult(true, result);
+//     }
+//     return new SubmissionHandlerResult(false, new SubmissionResultNotValid(submission.currentBoard, "Sumission Not Yet Handled"));
+// }
 
 function handleInvalidStonePlay(submission: Submission): SubmissionHandlerResult {
     const stonePlay = submission.stonePlay;
@@ -61,23 +70,24 @@ function handleInvalidStonePlay(submission: Submission): SubmissionHandlerResult
     if (
         (stonePlay.col > 18) ||
         (stonePlay.col < 0)) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, `Invalid value in stonePlay col: ${stonePlay.col} `);
+        const result = new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, `Invalid value in stonePlay col: ${stonePlay.col} `,submission);
         return new SubmissionHandlerResult(true, result);
     }
 
     if (
         (stonePlay.row > 18) ||
         (stonePlay.row < 0)) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, `Invalid value in stonePlay row: ${stonePlay.row} `);
+        const result = new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, `Invalid value in stonePlay row: ${stonePlay.row} `,submission);
         return new SubmissionHandlerResult(true, result);
     }
 
     if (checkIsCollision(submission.currentBoard, submission.stonePlay)) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, `Invalid value in stonePlay - intersection is occupied: ${stonePlay.row}, ${stonePlay.col}`);
+        const result = new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, `Invalid value in stone play - target intersection is occupied: ${stonePlay.row}, ${stonePlay.col}`,submission);
+        result.isCollision=true;
         return new SubmissionHandlerResult(true, result);
     }
 
-    return new SubmissionHandlerResult(false, new SubmissionResultNotValid(submission.currentBoard, "Sumission Not Yet Handled"));
+    return new SubmissionHandlerResult(false, new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Sumission Not Yet Handled",submission));
 }
 
 function handleMissingOrInvalidKoCompare(submission: Submission): SubmissionHandlerResult {
@@ -85,56 +95,56 @@ function handleMissingOrInvalidKoCompare(submission: Submission): SubmissionHand
     const whiteOccupiedIntersectionsCurrent = countOccurrences(submission.currentBoard, 'w');
 
     if (whiteOccupiedIntersectionsCurrent < 3) {// ko compare not required on first 3 plays or so and not possible on first play
-        return new SubmissionHandlerResult(false, new SubmissionResultNotValid(submission.currentBoard, "Sumission Not Yet Handled"));
+        return new SubmissionHandlerResult(false, new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Sumission Not Yet Handled",submission));
     }
 
-    const blackOccupiedIntersectionsPrevious = countOccurrences(submission.previousBoard, 'b');
-    const whiteOccupiedIntersectionsPrevious = countOccurrences(submission.previousBoard, 'w');
+    // const blackOccupiedIntersectionsPrevious = countOccurrences(submission.previousBoard, 'b');
+    // const whiteOccupiedIntersectionsPrevious = countOccurrences(submission.previousBoard, 'w');
 
-    if (whiteOccupiedIntersectionsPrevious + blackOccupiedIntersectionsPrevious < 5) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, "Previous Board has too few stones");
-        return new SubmissionHandlerResult(true, result);
-    }
+    // if (whiteOccupiedIntersectionsPrevious + blackOccupiedIntersectionsPrevious < 5) {
+    //     const result = new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Previous Board has too few stones",submission);
+    //     return new SubmissionHandlerResult(true, result);
+    // }
 
     if (submission.previousBoard == null) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, "Missing Previous Board for Ko Compare");
+        const result = new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Missing Previous Board for Ko Compare",submission);
         return new SubmissionHandlerResult(true, result);
     }
 
     const boardDimensionsAreValid = areDimensionsValid(submission.previousBoard);
 
     if (!boardDimensionsAreValid) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, "Previous Board dimensions are not valid");
+        const result = new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Previous Board dimensions are not valid",submission);
         return new SubmissionHandlerResult(true, result);
     }
 
     if (countInvalidStrings(submission.previousBoard)) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, "Previous Board contains invalid entries");
+        const result = new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Previous Board contains invalid entries",submission);
         return new SubmissionHandlerResult(true, result);
     }
 
-    return new SubmissionHandlerResult(false, new SubmissionResultNotValid(submission.currentBoard, "Sumission Not Yet Handled"));
+    return new SubmissionHandlerResult(false, new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Sumission Not Yet Handled",submission));
 }
 
 function handleMissingOrInvalidCurrentBoard(submission: Submission): SubmissionHandlerResult {
 
     if (submission.currentBoard == null) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, "Missing Current Board in submision");
+        const result = new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Missing Current Board in submision",submission);
         return new SubmissionHandlerResult(true, result);
     }
 
     const boardDimensionsAreValid = areDimensionsValid(submission.currentBoard);
 
     if (!boardDimensionsAreValid) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, "Missing Current Board dimensions are not valid");
+        const result = new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Missing Current Board dimensions are not valid",submission);
         return new SubmissionHandlerResult(true, result);
     }
 
     if (countInvalidStrings(submission.currentBoard)) {
-        const result = new SubmissionResultNotValid(submission.currentBoard, "Current Board contains invalid entries");
+        const result = new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Current Board contains invalid entries",submission);
         return new SubmissionHandlerResult(true, result);
     }
-    return new SubmissionHandlerResult(false, new SubmissionResultNotValid(submission.currentBoard, "Sumission Not Yet Handled"));
+    return new SubmissionHandlerResult(false, new SubmissionResultNotValid(submission.currentBoard,submission.previousBoard, "Sumission Not Yet Handled",submission));
 }
 
 function areDimensionsValid(arr: string[][]): boolean {// crafted by chatGPT
@@ -173,7 +183,7 @@ function checkForAtri(defenderGroups: StoneGroup[]): boolean {
 
 function checkIsSuisidePlay(deadDefenderGroups: StoneGroup[], goBoard: GoBoard, submission: Submission): boolean {
     if (deadDefenderGroups.length < 1) {// check for suiside
-        const playerGroups = getGroupsByStoneColor(goBoard.stoneGroups, submission.stonePlay.stoneColor);
+        const playerGroups = getGroupsByStoneColor(goBoard.stoneGroups, submission.stoneColorOfThisTurn);
         const deadPlayerGroups = getDeadGroups(playerGroups);
         if (deadPlayerGroups.length > 0) {
             return true;
@@ -184,7 +194,7 @@ function checkIsSuisidePlay(deadDefenderGroups: StoneGroup[], goBoard: GoBoard, 
 
 function intializeWorkBoardWithStonePlay(submission: Submission): string[][] {
     const result = cloneBoard(submission.currentBoard);
-    result[submission.stonePlay.row][submission.stonePlay.col] = submission.stonePlay.stoneColor;
+    result[submission.stonePlay.row][submission.stonePlay.col] = submission.stoneColorOfThisTurn;
     return result;
 }
 
@@ -193,7 +203,7 @@ export function cloneBoard(boardIn: string[][]): string[][] {
 }
 
 export function applySubmittedPlayToWorkBoard(submission: Submission, stringBoard: string[][]): void {
-    stringBoard[submission.stonePlay.row][submission.stonePlay.col] = submission.stonePlay.stoneColor;
+    stringBoard[submission.stonePlay.row][submission.stonePlay.col] = submission.stoneColorOfThisTurn;
 }
 
 export function getGroupsByStoneColor(groups: StoneGroup[], stoneColor: string): StoneGroup[] {

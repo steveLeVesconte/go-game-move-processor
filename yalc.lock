@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "go-game-move-processor": {
+      "version": "0.0.0",
+      "signature": "b730557d254efb6e73a0f813cfa93122",
+      "file": true
+    }
+  }
+}

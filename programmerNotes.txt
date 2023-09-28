@@ -1,0 +1,2 @@
+yalc add go-game-move-processor@0.0.0    
+yalc update go-game-move-processor@0.0.0                                                         
