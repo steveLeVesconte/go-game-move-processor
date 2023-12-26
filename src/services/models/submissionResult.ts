@@ -1,4 +1,3 @@
-//import { s } from "vitest/dist/types-198fd1d9.js";
 import { BLACK_STONE, WHITE_STONE } from "./constants";
 import { StonePlay } from "./stonePlay";
 import { Submission } from "./submission";
@@ -31,7 +30,7 @@ export class SubmissionResultNotValid extends BaseSubmissionResult {
         reasonSubmissionInvalid: string,
         submission: Submission
     ) {
-        super()//false, false, newBoard, newKoCompareBoard, 0, false);
+        super()
         this.isValidSubmission=false;
         this.isLegalPlay=false;
         this.newBoard=newBoard;
@@ -55,7 +54,7 @@ export class SubmissionResultPass extends BaseSubmissionResult {
             newKoCompareBoard: string[][],
             submission: Submission
         ) {
-            super()//false, false, newBoard, newKoCompareBoard, 0, false);
+            super()
             this.isValidSubmission=true;
             this.isLegalPlay=true;
             this.newBoard=newBoard;
@@ -75,7 +74,7 @@ export class SubmissionResultPass extends BaseSubmissionResult {
     export class SubmissionResultQuit extends BaseSubmissionResult {
         constructor(
         ) {
-            super()//false, false, newBoard, newKoCompareBoard, 0, false);
+            super()
             this.isExit=true;
         }
     }
@@ -89,7 +88,7 @@ export class SubmissionResultLegalStonePlay extends BaseSubmissionResult {
         isAtari:boolean,
         submission:Submission
     ) {
-        super()//false, false, newBoard, newKoCompareBoard, 0, false);
+        super()
         this.isValidSubmission=true;
         this.isLegalPlay=true;
         this.newBoard=newBoard;
@@ -114,7 +113,7 @@ export class SubmissionResultKo extends BaseSubmissionResult {
         newKoCompareBoard: string[][],
         submission:Submission   
     ) {
-        super()//false, false, newBoard, newKoCompareBoard, 0, false);
+        super()
         this.isValidSubmission=true;
         this.isLegalPlay=false;
         this.newBoard=newBoard;
@@ -139,7 +138,7 @@ export class SubmissionResultSuiside extends BaseSubmissionResult {
         newKoCompareBoard: string[][],
         submission:Submission
     ) {
-        super()//false, false, newBoard, newKoCompareBoard, 0, false);
+        super()
         this.isValidSubmission=true;
         this.isLegalPlay=false;
         this.newBoard=newBoard;
@@ -157,18 +156,3 @@ export class SubmissionResultSuiside extends BaseSubmissionResult {
 
     }
 }
-
-// export class SubmissionResultUnkown extends BaseSubmissionResult {
-
-//     constructor(
-//         newBoard: string[][],
-//         newKoCompareBoard: string[][]
-//     ) {
-//         super(true, false, newBoard, newKoCompareBoard, 0, false);
-//         this.isKo = false;
-//         this.isSuicide = false;
-//         this.isCollision = true;
-//         this.reasonSubmissionInvalid = "";
-//     }
-// }
-

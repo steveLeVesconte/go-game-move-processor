@@ -368,8 +368,6 @@ test('evaluateSubmission  - when new single liberty group exists for defender at
   expect(submissionResult.isAtari).toBe(true);
 });
 
-
-
 test('removeDeadStones - when killing play is applied, defender groups loses liberties and stones are removed', () => {
   //arrange
   const startingBoardString =

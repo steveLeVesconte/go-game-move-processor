@@ -1,4 +1,3 @@
-//import { ACTION_TYPE } from "./constants";
 import { StonePlay } from "./stonePlay";
 
 export class Submission {
