@@ -1,22 +1,15 @@
 {
-  "name": "go-game-move-processor",
-  "version": "0.0.2",
+  "name": "@two-way-press/go-game-move-processor",
+  "description": "go move referee for go games",
+  "version": "0.0.13",
   "type": "module",
-  "main": "./dist/go-game-move-processor.umd.cjs",
-  "module": "./dist/go-game-move-processor.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/go-game-move-processor.js",
-      "require": "./dist/go-game-move-processor.umd.cjs"
-    }
-  },
-  "files": [
-    "dist"
-  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+ 
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc",
     "preview": "vite preview",
     "test": "vitest"
   },
@@ -30,7 +23,9 @@
     "vite-plugin-dts": "^3.3.1",
     "vitest": "^0.33.0"
   },
-  "dependencies": {
-    "go-game-move-processor": "file:.yalc/go-game-move-processor"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steveLeVesconte/go-game-move-processor"
   }
+
 }
