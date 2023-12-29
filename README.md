@@ -3,7 +3,7 @@
 
 # go-game-move-processor
 
-> This package evaluates indivdual actions in a go game to decide on validity and to award captured stones (points).
+> This package evaluates individual actions in a go game to decide on validity and to award captured stones (points).
 
 ## Prerequisites
 
@@ -69,16 +69,16 @@ $ npm install @two-way-press/go-game-move-processor
 
 Follow the installation instructions above and then submit Submissions to the evaluateSubmission function to get a result.
 
-Refer to gameReferee.test.ts for many examples of composign well formed sumbissions and interpeting results.
+Refer to gameReferee.test.ts for many examples of composing well-formed submissions and interpreting results.
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-This libary is used by client app to evaluate go game moves.  The client app submits a Sumission to the function evaluateSubmission which returns a SumissionResult.
+This package is used by a client app to evaluate go game moves.  The client app submits a Submission to the function evaluateSubmission which returns a SumissionResult.  
 
 index.ts exposes 3 types:
-     StonePlay
-     Submission
-     BaseSubmissionResult
+     StonePlay              - the individual move such as "white stone at location 1A".
+     Submission             - all the information needed to evaluate a game move including a past game state for evaluation of Ko rule compliance.
+     BaseSubmissionResult   - the referee's determination of the legality of the move and the resulting game state including captured stones and new board state.
 and 2 syncronous functions:
      evaluateSubmission
      stringBoardToArray
@@ -284,7 +284,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* Steve LeVesconte - [Steve LeVesconte]([https://github.com/steveLeVesconte])
+* [Steve LeVesconte]([https://github.com/steveLeVesconte])
 
 
 ## License
