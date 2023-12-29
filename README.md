@@ -98,7 +98,7 @@ and 2 syncronous functions:
   </tr>
     <tr>
     <td>stringBoardToArray</td>
-     <td>a pure synchronous function that serialized representation of a go board state and converts it to a two dimensional array (19x19) of letters representing stones on the board and their locations.</td>
+     <td>a pure synchronous function that accepts a serialized representation of a go board state and converts it to a two dimensional array (19x19) of letters representing stones on the board and their locations.</td>
   </tr>
   
 </table>
