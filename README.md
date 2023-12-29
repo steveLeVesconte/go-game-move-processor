@@ -94,11 +94,11 @@ and 2 syncronous functions:
 <table>
   <tr>
     <td>evaluateSubmission</td>   
-      <td>a pure syncronous function that accepts a Submission and returns a BaseSubmissionResult.</td>
+      <td>a pure synchronous function that accepts a Submission and returns a BaseSubmissionResult.</td>
   </tr>
     <tr>
     <td>stringBoardToArray</td>
-     <td>a pure syncronous function that serialized represntation of a go board state and converts it to a two dimentional array (19x19) of letters representing stones on the board and thier locations.</td>
+     <td>a pure synchronous function that serialized representation of a go board state and converts it to a two dimensional array (19x19) of letters representing stones on the board and thier locations.</td>
   </tr>
   
 </table>
