@@ -20,13 +20,13 @@ v8.16.0
 
 ## Table of contents
 
-- [Project Name](#project-name)
+- [go-game-move-processor](#go-game-move-processor)
   - [Prerequisites](#prerequisites)
   - [Table of contents](#table-of-contents)
   - [Getting Started](#getting-started)
   - [Installation](#installation)
   - [Usage](#usage)
-    - [Serving the app](#serving-the-app)
+ <!--   - [Serving the app](#serving-the-app)
     - [Running the tests](#running-the-tests)
     - [Building a distribution version](#building-a-distribution-version)
     - [Serving the distribution version](#serving-the-distribution-version)
@@ -35,9 +35,9 @@ v8.16.0
       - [Options](#options)
     - [fetchData](#fetchdata)
   - [Contributing](#contributing)
-  - [Credits](#credits)
+  - [Credits](#credits)-->
   - [Built With](#built-with)
-  - [Versioning](#versioning)
+<!--  - [Versioning](#versioning)-->
   - [Authors](#authors)
   - [License](#license)
 
@@ -76,13 +76,32 @@ Refer to gameReferee.test.ts for many examples of composing well-formed submissi
 This package is used by a client app to evaluate go game moves.  The client app submits a Submission to the function evaluateSubmission which returns a SumissionResult.  
 
 index.ts exposes 3 types:
-     StonePlay              - the individual move such as "white stone at location 1A".
-     Submission             - all the information needed to evaluate a game move including a past game state for evaluation of Ko rule compliance.
-     BaseSubmissionResult   - the referee's determination of the legality of the move and the resulting game state including captured stones and new board state.
+<table>
+  <tr>
+    <td>StonePlay</td>
+    <td>the individual move such as "white stone at location 1A".</td>
+  </tr>
+    <tr>
+    <td>Submission </td>
+    <td>all the information needed to evaluate a game move including a past game state for evaluation of Ko rule compliance.</td>
+  </tr>
+    <tr>
+    <td>BaseSubmissionResult</td>
+    <td>the referee's determination of the legality of the move and the resulting game state including captured stones and new board state</td>
+  </tr>
+</table>
 and 2 syncronous functions:
-     evaluateSubmission
-     stringBoardToArray
-
+<table>
+  <tr>
+    <td>evaluateSubmission</td>   
+      <td>a pure syncronous function that accepts a Submission and returns a BaseSubmissionResult.</td>
+  </tr>
+    <tr>
+    <td>stringBoardToArray</td>
+     <td>a pure syncronous function that serialized represntation of a go board state and converts it to a two dimentional array (19x19) of letters representing stones on the board and thier locations.</td>
+  </tr>
+  
+</table>
 
 
 ### Running the tests
