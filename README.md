@@ -73,7 +73,7 @@ Refer to gameReferee.test.ts for many examples of composing well-formed submissi
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-This package is used by a client app to evaluate go game moves.  The client app submits a Submission to the function evaluateSubmission which returns a SumissionResult.  
+This package is used by a client app to evaluate go game moves.  The client app submits a Submission to the function evaluateSubmission which returns a SubmissionResult.  
 
 index.ts exposes 3 types:
 <table>
